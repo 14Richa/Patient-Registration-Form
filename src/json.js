@@ -5,7 +5,7 @@ export const json = {
     "pages": [
         {
             "title": "Patient Registration Form",
-            "description": "Your privacy is important to us. All information received through our forms and other communications is subject to our Patient Privacy Policy.",
+            "description": "We value your privacy. Any information provided via our forms or other communications is protected under our Patient Privacy Policy.",
     
             "name": "page1",
             "elements": [
@@ -37,6 +37,29 @@ export const json = {
                     "title": "Date of Birth",
                     "inputType": "date"
                   },
+                  {
+                    "type": "dropdown",
+                    "name": "marital-status",
+                    "width": "50%",
+                    "minWidth": "256px",
+                    "title": "Marital Status",
+                    "choices": [ "Single", "Married", "Widowed", "Separated" ],
+                    "choicesOrder": "random",
+                    "placeholder": "",
+                    "allowClear": false
+                  },
+                  {
+                    "type": "dropdown",
+                    "name": "gender",
+                    "width": "50%",
+                    "minWidth": "256px",
+                    "startWithNewLine": false,
+                    "title": "Gender",
+                    "choices": [ "Male", "Female" ],
+                    "choicesOrder": "random",
+                    "placeholder": "",
+                    "allowClear": false
+                  }
                 ],
                 "width": "69%",
                 "minWidth": "256px"

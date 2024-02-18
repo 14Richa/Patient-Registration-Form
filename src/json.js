@@ -33,5 +33,16 @@ export const json = {
             ]
           }
     ],
+    "calculatedValues": [{
+      "name": "firstname-for-complete-page",
+      "expression": "iif({first-name} notempty, {first-name}, patient)"
+    }],
+    "showQuestionNumbers": "off",
+    "questionErrorLocation": "bottom",
+    "completeText": "Register",
+    "questionsOnPageMode": "singlePage",
+    "widthMode": "static",
+    "width": "1024",
+    "fitToContainer": true,
 
 }

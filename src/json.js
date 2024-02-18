@@ -10,7 +10,19 @@ export const json = {
     
             "name": "page1",
             "elements": [
-              PersonalInformationPanel
+              PersonalInformationPanel,
+              {
+                "type": "file",
+                "name": "photo",
+                "width": "31%",
+                "imageWidth": "532",
+                "imageHeight": "576",
+                "minWidth": "256px",
+                "startWithNewLine": false,
+                "titleLocation": "hidden",
+                "sourceType": "camera",
+                "photoPlaceholder": " "
+              },
               
             
             ]

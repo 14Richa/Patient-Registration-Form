@@ -26,7 +26,7 @@ export const EmergencyContactPanel = {
         "name": "emergency-contact-phone",
         "width": "34%",
         "minWidth": "128px",
-        "title": "Phone #"
+        "title": "Phone"
       },
       {
         "type": "text",

@@ -1,6 +1,8 @@
 import { PersonalInformationPanel } from "./PersonalInformationPanel";
 import {ContactInformationPanel} from "./ContactInformationPanel";
 import {EmergencyContactPanel} from "./EmergencyContactPanel";
+import {InsuranceInformationPanel} from "./InsuranceInformationPanel";
+
 export const json = {
     "logo": "https://raw.githubusercontent.com/14Richa/testga/main/uclhLogo1.png",
     "logoWidth": "auto",
@@ -27,6 +29,7 @@ export const json = {
               },
               ContactInformationPanel,
               EmergencyContactPanel,
+              InsuranceInformationPanel
 
               
             

@@ -38,7 +38,7 @@ export const json = {
     ],
     "calculatedValues": [{
       "name": "firstname-for-complete-page",
-      "expression": "iif({first-name} notempty, {first-name}, patient)"
+      "expression": "iif({name} notempty, {name}, patient)"
     }],
     "showQuestionNumbers": "off",
     "questionErrorLocation": "bottom",

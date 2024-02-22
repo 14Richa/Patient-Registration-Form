@@ -4,11 +4,11 @@ export const PersonalInformationPanel = {
         "elements": [
           {
             "type": "text",
-            "name": "first-name",
+            "name": "name",
             "width": "50%",
             "minWidth": "256px",
             "title": "First Name",
-            "onInputClick": "first-name"
+            "onInputClick": "name"
           },
           {
             "type": "text",
@@ -29,7 +29,7 @@ export const PersonalInformationPanel = {
           },
           {
             "type": "dropdown",
-            "name": "marital-status",
+            "name": "status",
             "width": "50%",
             "minWidth": "256px",
             "title": "Marital Status",

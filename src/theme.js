@@ -111,10 +111,10 @@ export const themeJson = {
     "isPanelless": true,
 
     "header": {
-      "height": 320,
+      "height": 520,
       "inheritWidthFrom": "container",
       "textAreaWidth": 424,
-      "backgroundImage": "https://raw.githubusercontent.com/14Richa/testga/main/hospital.png",
+      "backgroundImage": "https://raw.githubusercontent.com/14Richa/testga/main/doctors.png",
 
       "backgroundImageFit": "cover",
       "logoPositionX": "right",

@@ -35,7 +35,7 @@ cd backend
 ```
 source venv/bin/activate
 ```
-3. Make migrations
+3.  Make migrations after going to myproject directory
 ```
 python manage.py makemigrations
 python manage.py migrate

@@ -10,3 +10,15 @@ To run this project locally, follow these steps:
 ```
 git clone git@github.com:14Richa/Patient-Readmission-Analysis.git
 ```
+2. Navigate into the project directory:
+```
+cd patient-registration-form
+```
+3. Install dependencies:
+```
+npm install
+```
+4. Start Frontend: 
+```
+npm start
+```

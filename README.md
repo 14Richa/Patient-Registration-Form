@@ -22,3 +22,25 @@ npm install
 ```
 npm start
 ```
+
+### Backend Setup
+
+For the backend setup, follow these steps:
+
+1. Navigate to the backend directory:
+```
+cd backend
+```
+2. Activate the virtual environment (venv):
+```
+source venv/bin/activate
+```
+3. Make migrations
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+4. Run the Django server:
+```
+python manage.py runserver
+```

@@ -7,4 +7,6 @@ This project is a web application built using React for the frontend, Django for
 To run this project locally, follow these steps:
 
 1. Clone the repository to your local machine:
-   ```git clone git@github.com:14Richa/Patient-Readmission-Analysis.git```
+```
+git clone git@github.com:14Richa/Patient-Readmission-Analysis.git
+```

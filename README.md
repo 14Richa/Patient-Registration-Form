@@ -47,4 +47,4 @@ python manage.py runserver
 
 ## Additional Notes
 
-This project serves as a prototype for a touchless website. The touchless functionality is intended to be implemented using Leap Motion Controller technology. Future enhancements include integrating an on-screen keyboard to enable users to input data without physically touching the keyboard or screen, thus minimizing the risk of infection and promoting Human-Computer Interaction.
+This project serves as a prototype for a touchless website. The touchless functionality is intended to be implemented using [Leap Motion Controller](https://leap2.ultraleap.com/leap-motion-controller-2/) technology. Future enhancements include integrating an on-screen keyboard to enable users to input data without physically touching the keyboard or screen, thus minimizing the risk of infection and promoting Human-Computer Interaction.

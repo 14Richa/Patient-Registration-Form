@@ -1,6 +1,6 @@
 # Patient Registration Form
 
-This project is a web application built using React for the frontend, Django for the backend, and PostgreSQL for the database. The application allows users to register as patients by filling out a form with their information.
+This project is a web application prototype built using React for the frontend, and Django for the backend. The application allows users to register as patients by filling out a form with their information.
 
 ## Setup Instructions
 
@@ -35,7 +35,7 @@ cd backend
 ```
 source venv/bin/activate
 ```
-3. Make migrations
+3.  Make migrations after going to myproject directory
 ```
 python manage.py makemigrations
 python manage.py migrate
@@ -44,3 +44,7 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
+
+## Additional Notes
+
+This project serves as a prototype for a touchless website. The touchless functionality is intended to be implemented using [Leap Motion Controller](https://leap2.ultraleap.com/leap-motion-controller-2/) technology. Future enhancements include integrating an on-screen keyboard to enable users to input data without physically touching the keyboard or screen, thus minimizing the risk of infection and promoting Human-Computer Interaction.

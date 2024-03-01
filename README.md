@@ -35,12 +35,17 @@ cd backend
 ```
 source venv/bin/activate
 ```
-3.  Make migrations after going to myproject directory
+3. Navigate to myproject direction and install dependencies
+```
+pip install -r requirements.txt
+```
+
+4.  Make migrations
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
-4. Run the Django server:
+5. Run the Django server:
 ```
 python manage.py runserver
 ```

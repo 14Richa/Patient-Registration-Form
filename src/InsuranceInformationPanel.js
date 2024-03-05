@@ -4,11 +4,15 @@ export const InsuranceInformationPanel = {
         "name": "insurance",
         "elements": [
           {
-            "type": "text",
+            "type": "dropdown",
             "name": "insurance-company",
             "width": "66%",
             "minWidth": "256px",
-            "title": "Insurance Company"
+            "title": "Insurance Company",
+            "choices": [ "Bupa", "Aviva", "AXA Health", "Hiscox", "Zurich Insurance plc (UK)" ],
+            "choicesOrder": "random",
+            "placeholder": "",
+            "allowClear": false
           },
           {
             "type": "text",

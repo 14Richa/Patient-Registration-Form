@@ -4,9 +4,15 @@ import { PersonalInformationPanel } from './PersonalInformationPanel';
 import { ContactInformationPanel } from './ContactInformationPanel';
 import { EmergencyContactPanel } from './EmergencyContactPanel';
 import { InsuranceInformationPanel } from './InsuranceInformationPanel';
-import { json } from './oktaConfig'; // Import your JSON config
+import { json } from './json'; // Import your JSON configuration
 
+// Function to render specific form elements
 const renderElement = (element) => {
+  if (typeof element === 'object' && element.type === 'file') {
+    // Handle file input or other special cases
+    return <input type="file" />;
+  }
+
   switch (element) {
     case PersonalInformationPanel:
       return <PersonalInformationPanel />;
@@ -21,8 +27,9 @@ const renderElement = (element) => {
   }
 };
 
+// FormRenderer Component
 const FormRenderer = () => {
-  const { pages } = json;
+  const { pages } = json; // Use the configuration from json.js
 
   return (
     <div>

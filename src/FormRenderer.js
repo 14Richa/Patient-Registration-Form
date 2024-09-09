@@ -4,7 +4,7 @@ import { PersonalInformationPanel } from './PersonalInformationPanel';
 import { ContactInformationPanel } from './ContactInformationPanel';
 import { EmergencyContactPanel } from './EmergencyContactPanel';
 import { InsuranceInformationPanel } from './InsuranceInformationPanel';
-import { json } from './oktaconfig'; // Import your JSON config
+import { json } from './oktaConfig'; // Import your JSON config
 
 const renderElement = (element) => {
   switch (element) {

@@ -1,2 +1,2 @@
-# _redirects file
-/callback    /index.html   200
+/callback  /  200
+/welcome.html  /welcome.html  200

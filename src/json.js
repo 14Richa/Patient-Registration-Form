@@ -2,7 +2,7 @@ import { PersonalInformationPanel } from "./PersonalInformationPanel";
 import {ContactInformationPanel} from "./ContactInformationPanel";
 import {EmergencyContactPanel} from "./EmergencyContactPanel";
 import {InsuranceInformationPanel} from "./InsuranceInformationPanel";
-// import { OktaAuth } from '@okta/okta-auth-js';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 
 export const json = {
@@ -79,6 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
     pkce: true
   };
 
+  const oktaAuth = new OktaAuth({
+    issuer: oktaConfig.issuer,
+    clientId: oktaConfig.clientId,
+    redirectUri: oktaConfig.redirectUri,
+    scopes: oktaConfig.scopes,
+    pkce: oktaConfig.pkce
+  });
 
 
   // Function to generate the Okta login URL

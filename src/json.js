@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clientId: '0oajijlhx8pogQNEu5d7',
     redirectUri: `${window.location.origin}/callback`,
     scopes: ['openid', 'profile', 'email'],
+    pkce: true
   };
 
   // Function to generate the Okta login URL

@@ -2,6 +2,7 @@ import { PersonalInformationPanel } from "./PersonalInformationPanel";
 import {ContactInformationPanel} from "./ContactInformationPanel";
 import {EmergencyContactPanel} from "./EmergencyContactPanel";
 import {InsuranceInformationPanel} from "./InsuranceInformationPanel";
+import { OktaAuth } from '@okta/okta-auth-js';
 
 
 export const json = {
@@ -68,34 +69,48 @@ export const json = {
 //   });
 // });
 
+const oktaConfig = {
+  issuer: 'https://dev-56861500.okta.com/oauth2/default',
+  clientId: '0oajijlhx8pogQNEu5d7',
+  redirectUri: window.location.origin + '/callback',  // Ensure this is correct
+  scopes: ['openid', 'profile', 'email'],
+  pkce: true
+};
+
+// Initialize OktaAuth instance
+const oktaAuth = new OktaAuth({
+  issuer: oktaConfig.issuer,
+  clientId: oktaConfig.clientId,
+  redirectUri: oktaConfig.redirectUri,
+  scopes: oktaConfig.scopes,
+  pkce: oktaConfig.pkce
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-  // Okta configuration
-  const oktaConfig = {
-    issuer: 'https://dev-56861500.okta.com/oauth2/default',
-    clientId: '0oajijlhx8pogQNEu5d7',
-    redirectUri: window.location.origin + '/callback',  // Ensure this is correct
-    scopes: ['openid', 'profile', 'email'],
-    pkce: true
-  };
-
-  // Function to generate the Okta login URL
-  const generateOktaLoginUrl = () => {
-    const authorizationEndpoint = `${oktaConfig.issuer}/v1/authorize`;
-    const queryParams = new URLSearchParams({
-      client_id: oktaConfig.clientId,
-      redirect_uri: oktaConfig.redirectUri,
-      response_type: 'code',  // Authorization code flow
-      scope: oktaConfig.scopes.join(' '), // Space-separated scopes
-      state: 'state', // Optional: used to maintain state across redirects
-      nonce: 'nonce', // Optional: helps prevent replay attacks
-    });
-
-    return `${authorizationEndpoint}?${queryParams.toString()}`;
+  // Function to handle login
+  const login = async () => {
+    try {
+      // Redirect to Okta login page
+      await oktaAuth.signInWithRedirect();
+    } catch (err) {
+      console.error('Error during login:', err);
+    }
   };
 
   // Handle button click for redirecting to Okta login
   document.getElementById('logOktaConfigButton')?.addEventListener('click', function() {
-    const oktaLoginUrl = generateOktaLoginUrl();
-    window.location.href = oktaLoginUrl; // Redirect to Okta login page
+    login(); // Use OktaAuth to handle login
   });
+
+  // Optional: handle the callback after login
+  if (window.location.pathname === '/callback') {
+    oktaAuth.handleLoginRedirect()
+      .then(() => {
+        // Handle successful login here
+        window.location.href = '/'; // Redirect to the main page or any other page
+      })
+      .catch(err => {
+        console.error('Error handling login redirect:', err);
+      });
+  }
 });

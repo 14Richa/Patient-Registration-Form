@@ -102,15 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
     login(); // Use OktaAuth to handle login
   });
 
-  // Optional: handle the callback after login
-  if (window.location.pathname === '/callback') {
-    oktaAuth.handleLoginRedirect()
-      .then(() => {
-        // Handle successful login here
-        window.location.href = '/'; // Redirect to the main page or any other page
-      })
-      .catch(err => {
-        console.error('Error handling login redirect:', err);
-      });
-  }
+  // // Optional: handle the callback after login
+  // if (window.location.pathname === '/callback') {
+  //   oktaAuth.handleLoginRedirect()
+  //     .then(() => {
+  //       // Handle successful login here
+  //       window.location.href = '/'; // Redirect to the main page or any other page
+  //     })
+  //     .catch(err => {
+  //       console.error('Error handling login redirect:', err);
+  //     });
+  // }
 });

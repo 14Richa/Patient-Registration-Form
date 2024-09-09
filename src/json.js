@@ -3,6 +3,15 @@ import {ContactInformationPanel} from "./ContactInformationPanel";
 import {EmergencyContactPanel} from "./EmergencyContactPanel";
 import {InsuranceInformationPanel} from "./InsuranceInformationPanel";
 
+const oktaConfig = {
+  issuer: 'https://dev-56861500.okta.com/oauth2/default',
+  clientId: '0oajijlhx8pogQNEu5d7',
+  redirectUri: `${window.location.origin}/callback`,
+  scopes: ['openid', 'profile', 'email'],
+};
+console.log('Okta Config:', oktaConfig);
+
+
 export const json = {
     "logo": "https://raw.githubusercontent.com/14Richa/testga/main/logo-png.png",
     "logoWidth": "auto",
@@ -13,7 +22,7 @@ export const json = {
         {
             "title": "Patient Registration Form",
             "description": "We value your privacy. Any information provided via our forms or other communications is protected under our Patient Privacy Policy.",
-    
+
             "name": "page1",
             "elements": [
               PersonalInformationPanel,
@@ -33,8 +42,8 @@ export const json = {
               EmergencyContactPanel,
               InsuranceInformationPanel
 
-              
-            
+
+
             ]
           }
     ],

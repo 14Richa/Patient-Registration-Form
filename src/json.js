@@ -57,18 +57,6 @@ export const json = {
   "fitToContainer": true,
 };
 
-// // JavaScript code to handle the button click and log oktaConfig
-// document.addEventListener('DOMContentLoaded', function() {
-//   const oktaConfig = { issuer: 'https://dev-56861500.okta.com/oauth2/default',
-//     clientId: '0oajijlhx8pogQNEu5d7',
-//     redirectUri: `${window.location.origin}/callback`,
-//     scopes: ['openid', 'profile', 'email'],}; // Replace with actual import if available
-
-//   document.getElementById('logOktaConfigButton')?.addEventListener('click', function() {
-//     console.log('Okta Config:', oktaConfig);
-//   });
-// });
-
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',

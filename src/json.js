@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const oktaConfig = {
     issuer: 'https://dev-56861500.okta.com/oauth2/default',
     clientId: '0oajijlhx8pogQNEu5d7',
-    redirectUri: `${window.location.origin}/callback`,
+    redirectUri: 'https://patient-registration-form.netlify.app/callback',  // Ensure this is correct
     scopes: ['openid', 'profile', 'email'],
     pkce: true
   };
@@ -84,10 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const queryParams = new URLSearchParams({
       client_id: oktaConfig.clientId,
       redirect_uri: oktaConfig.redirectUri,
-      response_type: 'code',  // Use 'code' for the authorization code flow
-      scope: oktaConfig.scopes.join(' '), // Join the scopes array into a space-separated string
-      state: 'state', // Optional, use this to maintain state across redirects
-      nonce: 'nonce', // Optional, helps prevent replay attacks
+      response_type: 'code',  // Authorization code flow
+      scope: oktaConfig.scopes.join(' '), // Space-separated scopes
+      state: 'state', // Optional: used to maintain state across redirects
+      nonce: 'nonce', // Optional: helps prevent replay attacks
     });
 
     return `${authorizationEndpoint}?${queryParams.toString()}`;
@@ -96,6 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Handle button click for redirecting to Okta login
   document.getElementById('logOktaConfigButton')?.addEventListener('click', function() {
     const oktaLoginUrl = generateOktaLoginUrl();
-    window.location.href = oktaLoginUrl; // Redirect to Okta login
+    window.location.href = oktaLoginUrl; // Redirect to Okta login page
   });
 });

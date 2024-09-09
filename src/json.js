@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const oktaConfig = {
     issuer: 'https://dev-56861500.okta.com/oauth2/default',
     clientId: '0oajijlhx8pogQNEu5d7',
-    redirectUri: 'https://patient-registration-form.netlify.app/callback',  // Ensure this is correct
+    redirectUri: window.location.origin + '/callback',  // Ensure this is correct
     scopes: ['openid', 'profile', 'email'],
     pkce: true
   };

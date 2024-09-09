@@ -56,14 +56,45 @@ export const json = {
   "fitToContainer": true,
 };
 
-// JavaScript code to handle the button click and log oktaConfig
+// // JavaScript code to handle the button click and log oktaConfig
+// document.addEventListener('DOMContentLoaded', function() {
+//   const oktaConfig = { issuer: 'https://dev-56861500.okta.com/oauth2/default',
+//     clientId: '0oajijlhx8pogQNEu5d7',
+//     redirectUri: `${window.location.origin}/callback`,
+//     scopes: ['openid', 'profile', 'email'],}; // Replace with actual import if available
+
+//   document.getElementById('logOktaConfigButton')?.addEventListener('click', function() {
+//     console.log('Okta Config:', oktaConfig);
+//   });
+// });
+
 document.addEventListener('DOMContentLoaded', function() {
-  const oktaConfig = { issuer: 'https://dev-56861500.okta.com/oauth2/default',
+  // Okta configuration
+  const oktaConfig = {
+    issuer: 'https://dev-56861500.okta.com/oauth2/default',
     clientId: '0oajijlhx8pogQNEu5d7',
     redirectUri: `${window.location.origin}/callback`,
-    scopes: ['openid', 'profile', 'email'],}; // Replace with actual import if available
+    scopes: ['openid', 'profile', 'email'],
+  };
 
+  // Function to generate the Okta login URL
+  const generateOktaLoginUrl = () => {
+    const authorizationEndpoint = `${oktaConfig.issuer}/v1/authorize`;
+    const queryParams = new URLSearchParams({
+      client_id: oktaConfig.clientId,
+      redirect_uri: oktaConfig.redirectUri,
+      response_type: 'code',  // Use 'code' for the authorization code flow
+      scope: oktaConfig.scopes.join(' '), // Join the scopes array into a space-separated string
+      state: 'state', // Optional, use this to maintain state across redirects
+      nonce: 'nonce', // Optional, helps prevent replay attacks
+    });
+
+    return `${authorizationEndpoint}?${queryParams.toString()}`;
+  };
+
+  // Handle button click for redirecting to Okta login
   document.getElementById('logOktaConfigButton')?.addEventListener('click', function() {
-    console.log('Okta Config:', oktaConfig);
+    const oktaLoginUrl = generateOktaLoginUrl();
+    window.location.href = oktaLoginUrl; // Redirect to Okta login
   });
 });

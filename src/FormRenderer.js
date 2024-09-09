@@ -1,15 +1,14 @@
 // src/FormRenderer.js
 import React from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import { PersonalInformationPanel } from './PersonalInformationPanel';
 import { ContactInformationPanel } from './ContactInformationPanel';
 import { EmergencyContactPanel } from './EmergencyContactPanel';
 import { InsuranceInformationPanel } from './InsuranceInformationPanel';
 import { json } from './json'; // Import your JSON configuration
 
-// Function to render specific form elements
 const renderElement = (element) => {
   if (typeof element === 'object' && element.type === 'file') {
-    // Handle file input or other special cases
     return <input type="file" />;
   }
 
@@ -27,9 +26,20 @@ const renderElement = (element) => {
   }
 };
 
-// FormRenderer Component
 const FormRenderer = () => {
+  const { authState, oktaAuth } = useOktaAuth();
+
+  React.useEffect(() => {
+    if (!authState.isAuthenticated) {
+      oktaAuth.signInWithRedirect();
+    }
+  }, [authState, oktaAuth]);
+
   const { pages } = json; // Use the configuration from json.js
+
+  if (!authState.isAuthenticated) {
+    return <div>Loading...</div>; // Show a loading message or spinner
+  }
 
   return (
     <div>

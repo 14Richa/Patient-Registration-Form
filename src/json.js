@@ -155,6 +155,13 @@ document.addEventListener('DOMContentLoaded', async function() {
       console.log('Access Token:', accessToken.accessToken);
       console.log('ID Token:', idToken.idToken);
 
+      // Use tokenManager to get tokens
+      const accessTokenFromManager = await oktaAuth.tokenManager.get('accessToken');
+      const idTokenFromManager = await oktaAuth.tokenManager.get('idToken');
+
+      console.log('Access Token from tokenManager:', accessTokenFromManager.accessToken);
+      console.log('ID Token from tokenManager:', idTokenFromManager.idToken);
+
       // Redirect to the home page or any other page after successful login
       window.location.href = '/'; // Change this if you want to redirect elsewhere
     } catch (err) {

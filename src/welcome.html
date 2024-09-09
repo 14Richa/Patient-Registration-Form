@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <script src="https://unpkg.com/@okta/okta-auth-js@6.5.1/dist/okta-auth-js.min.js"></script>
+    <script>
+        const oktaConfig = {
+            issuer: 'https://dev-56861500.okta.com/oauth2/default',
+            clientId: '0oajijlhx8pogQNEu5d7',
+            redirectUri: window.location.origin + '/callback',
+            scopes: ['openid', 'profile', 'email'],
+            pkce: true
+        };
+
+        const oktaAuth = new OktaAuth(oktaConfig);
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Check if we have tokens in local storage
+                const accessToken = await oktaAuth.tokenManager.get('accessToken');
+                const idToken = await oktaAuth.tokenManager.get('idToken');
+
+                if (accessToken && idToken) {
+                    // Decode the ID Token to get user info
+                    const userInfo = idToken.idTokenClaims;
+
+                    document.getElementById('greeting').textContent = `Hi ${userInfo.name}`;
+                    document.getElementById('email').textContent = `Email: ${userInfo.email}`;
+                } else {
+                    // If tokens are not found, redirect to login
+                    window.location.href = '/';
+                }
+            } catch (err) {
+                console.error('Error fetching user info:', err);
+                window.location.href = '/';
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 id="greeting">Hi</h1>
+    <p id="email">Email:</p>
+</body>
+</html>

@@ -219,6 +219,7 @@ export const json = {
 //   }
 // });
 
+// Define Okta configuration
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',
@@ -252,18 +253,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Handle Okta redirect callback (when the user is redirected back after login)
   if (window.location.pathname === '/redirect.html') {
     try {
-      // Extract tokens manually from the URL
+      // Extract authorization code from the URL
       const queryParams = new URLSearchParams(window.location.search);
-      const accessToken = queryParams.get('access_token');
-      const idToken = queryParams.get('id_token');
+      const code = queryParams.get('code');
 
-      if (accessToken && idToken) {
+      if (code) {
+        // Exchange authorization code for tokens
+        const tokenResponse = await oktaAuth.token.getWithoutPrompt({
+          authorizationCode: code,
+          redirectUri: oktaConfig.redirectUri,
+          codeVerifier: oktaAuth.token.getPkceCodeVerifier()
+        });
+
+        const { accessToken, idToken } = tokenResponse;
+
         // Store tokens in local storage or use tokenManager
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('idToken', idToken);
+        localStorage.setItem('accessToken', accessToken.accessToken);
+        localStorage.setItem('idToken', idToken.idToken);
 
-        console.log('Access Token:', accessToken);
-        console.log('ID Token:', idToken);
+        console.log('Access Token:', accessToken.accessToken);
+        console.log('ID Token:', idToken.idToken);
 
         // Show confirmation alert
         alert('Authentication successful! Redirecting to the welcome page.');
@@ -273,7 +282,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           window.location.href = `${window.location.origin}/welcome.html`;
         }, 2000); // 2 seconds delay
       } else {
-        throw new Error('Tokens not found in URL.');
+        throw new Error('Authorization code not found in URL.');
       }
     } catch (err) {
       console.error('Error handling login redirect:', err);

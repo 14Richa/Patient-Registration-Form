@@ -168,6 +168,57 @@ export const json = {
   "fitToContainer": true,
 };
 
+// const oktaConfig = {
+//   issuer: 'https://dev-56861500.okta.com/oauth2/default',
+//   clientId: '0oajijlhx8pogQNEu5d7',
+//   redirectUri: window.location.origin + '/callback',
+//   scopes: ['openid', 'profile', 'email'],
+//   pkce: true
+// };
+
+// const oktaAuth = new OktaAuth(oktaConfig);
+
+// document.addEventListener('DOMContentLoaded', async () => {
+//   // Function to handle login
+//   const login = async () => {
+//     try {
+//       // Redirect to Okta login page
+//       await oktaAuth.signInWithRedirect({
+//         originalUri: window.location.origin + '/welcome.html' // Redirect here after login
+//       });
+//     } catch (err) {
+//       console.error('Error during login:', err);
+//     }
+//   };
+
+//   const logOktaConfigButton = document.getElementById('logOktaConfigButton');
+//   if (logOktaConfigButton) {
+//     logOktaConfigButton.addEventListener('click', login);
+//   }
+
+//   // Handle Okta redirect callback
+//   if (window.location.pathname === '/callback') {
+//     try {
+//       const tokens = await oktaAuth.handleRedirectCallback();
+//       const { accessToken, idToken } = tokens;
+
+//       // Use tokenManager to get tokens
+//       const accessTokenFromManager = await oktaAuth.tokenManager.get('accessToken');
+//       const idTokenFromManager = await oktaAuth.tokenManager.get('idToken');
+
+//       console.log('Access Token:', accessToken.accessToken);
+//       console.log('ID Token:', idToken.idToken);
+//       console.log('Access Token from tokenManager:', accessTokenFromManager.accessToken);
+//       console.log('ID Token from tokenManager:', idTokenFromManager.idToken);
+
+//       // Redirect to the welcome page after successful login
+//       window.location.href = '/welcome.html';
+//     } catch (err) {
+//       console.error('Error handling login redirect:', err);
+//     }
+//   }
+// });
+
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',
@@ -179,6 +230,7 @@ const oktaConfig = {
 const oktaAuth = new OktaAuth(oktaConfig);
 
 document.addEventListener('DOMContentLoaded', async () => {
+
   // Function to handle login
   const login = async () => {
     try {
@@ -188,33 +240,34 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     } catch (err) {
       console.error('Error during login:', err);
+      alert('Login failed. Please try again.'); // Provide user feedback on login failure
     }
   };
 
+  // Add event listener to the login button
   const logOktaConfigButton = document.getElementById('logOktaConfigButton');
   if (logOktaConfigButton) {
     logOktaConfigButton.addEventListener('click', login);
   }
 
-  // Handle Okta redirect callback
+  // Handle Okta redirect callback (when the user is redirected back after login)
   if (window.location.pathname === '/callback') {
     try {
+      // Handle the redirect and retrieve tokens
       const tokens = await oktaAuth.handleRedirectCallback();
       const { accessToken, idToken } = tokens;
 
-      // Use tokenManager to get tokens
-      const accessTokenFromManager = await oktaAuth.tokenManager.get('accessToken');
-      const idTokenFromManager = await oktaAuth.tokenManager.get('idToken');
+      // Store tokens in tokenManager for future use
+      oktaAuth.tokenManager.setTokens(tokens);
 
       console.log('Access Token:', accessToken.accessToken);
       console.log('ID Token:', idToken.idToken);
-      console.log('Access Token from tokenManager:', accessTokenFromManager.accessToken);
-      console.log('ID Token from tokenManager:', idTokenFromManager.idToken);
 
       // Redirect to the welcome page after successful login
       window.location.href = '/welcome.html';
     } catch (err) {
       console.error('Error handling login redirect:', err);
+      alert('Error during the authentication process. Please try again.');
     }
   }
 });

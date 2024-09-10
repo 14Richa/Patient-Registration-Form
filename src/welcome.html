@@ -6,6 +6,7 @@
     <title>Welcome</title>
     <script src="https://unpkg.com/@okta/okta-auth-js@6.5.1/dist/okta-auth-js.min.js"></script>
     <script>
+        // Okta configuration
         const oktaConfig = {
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
             clientId: '0oajijlhx8pogQNEu5d7',
@@ -18,23 +19,31 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             try {
-                // Check if we have tokens in local storage
-                const accessToken = await oktaAuth.tokenManager.get('accessToken');
-                const idToken = await oktaAuth.tokenManager.get('idToken');
+                // Retrieve accessToken and idToken from the tokenManager
+                let accessToken = await oktaAuth.tokenManager.get('accessToken');
+                let idToken = await oktaAuth.tokenManager.get('idToken');
 
-                if (accessToken && idToken) {
-                    // Decode the ID Token to get user info
-                    const userInfo = idToken.idTokenClaims;
-
-                    document.getElementById('greeting').textContent = `Hi ${userInfo.name}`;
-                    document.getElementById('email').textContent = `Email: ${userInfo.email}`;
-                } else {
-                    // If tokens are not found, redirect to login
-                    window.location.href = '/';
+                // Check if tokens are present and valid
+                if (!accessToken || !idToken) {
+                    // Attempt to renew tokens if they are missing or expired
+                    try {
+                        accessToken = await oktaAuth.tokenManager.renew('accessToken');
+                        idToken = await oktaAuth.tokenManager.renew('idToken');
+                    } catch (renewError) {
+                        console.error('Token renewal failed:', renewError);
+                        window.location.href = '/'; // Redirect to login if token renewal fails
+                        return;
+                    }
                 }
+
+                // Extract user info from the ID token
+                const userInfo = idToken.claims;
+                document.getElementById('greeting').textContent = `Hi ${userInfo.name}`;
+                document.getElementById('email').textContent = `Email: ${userInfo.email}`;
             } catch (err) {
+                // Handle errors and redirect to login if something goes wrong
                 console.error('Error fetching user info:', err);
-                window.location.href = '/';
+                window.location.href = '/'; // Redirect to the homepage for login
             }
         });
     </script>

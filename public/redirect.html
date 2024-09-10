@@ -5,8 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect</title>
     <script src="https://cdn.jsdelivr.net/npm/@okta/okta-auth-js@7.5.0/dist/okta-auth-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script>
+        // Function to decode base64 URL-encoded JWT
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(window.atob(base64)
+                .split('')
+                .map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+
         // Initialize OktaAuth with your configuration
         const oktaAuth = new OktaAuth({
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
@@ -22,8 +35,8 @@
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
                 if (tokens.idToken) {
-                    // Decode the ID token using the global jwtDecode function
-                    const decodedToken = jwtDecode(tokens.idToken.value);
+                    // Decode the ID token
+                    const decodedToken = parseJwt(tokens.idToken.value);
 
                     // Extract user information
                     const name = decodedToken.name || 'User';

@@ -219,75 +219,43 @@ export const json = {
 //   }
 // });
 
-// Define Okta configuration
+// Initialize OktaAuth with your configuration
+
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',
-  redirectUri: `${window.location.origin}/redirect.html`, // Redirect URI for Okta
+  redirectUri: `${window.location.origin}/redirect.html`,
   scopes: ['openid', 'profile', 'email'],
   pkce: true
 };
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // Function to handle login
-  const login = async () => {
-    try {
-      // Redirect to Okta login page
-      await oktaAuth.signInWithRedirect({
-        originalUri: `${window.location.origin}/welcome.html` // Redirect here after login
-      });
-    } catch (err) {
-      console.error('Error during login:', err);
-      alert('Login failed. Please try again.'); // Provide user feedback on login failure
-    }
-  };
-
-  // Add event listener to the login button
-  const logOktaConfigButton = document.getElementById('logOktaConfigButton');
-  if (logOktaConfigButton) {
-    logOktaConfigButton.addEventListener('click', login);
-  }
-
-  // Handle Okta redirect callback (when the user is redirected back after login)
-  if (window.location.pathname === '/redirect.html') {
-    try {
-      // Extract authorization code from the URL
-      const queryParams = new URLSearchParams(window.location.search);
-      const code = queryParams.get('code');
-
-      if (code) {
-        // Exchange authorization code for tokens
-        const tokenResponse = await oktaAuth.token.getWithoutPrompt({
-          authorizationCode: code,
-          redirectUri: oktaConfig.redirectUri,
-          codeVerifier: oktaAuth.token.getPkceCodeVerifier()
-        });
-
-        const { accessToken, idToken } = tokenResponse;
-
-        // Store tokens in local storage or use tokenManager
-        localStorage.setItem('accessToken', accessToken.accessToken);
-        localStorage.setItem('idToken', idToken.idToken);
-
-        console.log('Access Token:', accessToken.accessToken);
-        console.log('ID Token:', idToken.idToken);
-
-        // Show confirmation alert
-        alert('Authentication successful! Redirecting to the welcome page.');
-
-        // Redirect to the welcome page after a short delay
-        setTimeout(() => {
-          window.location.href = `${window.location.origin}/welcome.html`;
-        }, 2000); // 2 seconds delay
-      } else {
-        throw new Error('Authorization code not found in URL.');
+document.addEventListener('DOMContentLoaded', function() {
+  const button = document.getElementById('logOktaConfigButton');
+  if (button) {
+    button.addEventListener('click', async () => {
+      try {
+        await oktaAuth.signInWithRedirect();
+      } catch (err) {
+        console.error('Error during sign-in:', err);
       }
-    } catch (err) {
-      console.error('Error handling login redirect:', err);
-      alert('Error during the authentication process. Please check the console for details.');
-    }
+    });
   }
 });
+
+async function handleAuthentication() {
+  try {
+    const { tokens } = await oktaAuth.handleAuthentication();
+    if (tokens) {
+      document.getElementById('message').textContent = 'Hello';
+    }
+  } catch (err) {
+    console.error('Error handling authentication:', err);
+  }
+}
+
+if (window.location.pathname === '/redirect.html') {
+  handleAuthentication();
+}
 

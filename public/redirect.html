@@ -6,7 +6,6 @@
     <title>Redirect</title>
     <script src="https://cdn.jsdelivr.net/npm/@okta/okta-auth-js@7.5.0/dist/okta-auth-js.min.js"></script>
     <script>
-        // Initialize OktaAuth with your configuration
         const oktaAuth = new OktaAuth({
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
             clientId: '0oajijlhx8pogQNEu5d7',
@@ -15,24 +14,25 @@
             pkce: true
         });
 
-        // Function to handle authentication callback
         async function handleAuthentication() {
             try {
                 // Parse tokens from the URL
-                const token = await oktaAuth.token.parseFromUrl();
-                // You can use the token to get user info or verify
-                const user = await oktaAuth.token.getUserInfo(token.tokens.idToken);
-                // Display a message
-                document.getElementById('message').textContent = `Hello, ${user.name}`;
-                // Optionally, redirect to another page
-                // window.location.href = '/some-page';
+                const { tokens } = await oktaAuth.token.parseFromUrl();
+
+                // Check if ID token and Access token are available
+                if (tokens.idToken && tokens.accessToken) {
+                    // Use the ID token to get user info
+                    const user = await oktaAuth.token.getUserInfo(tokens.idToken);
+                    document.getElementById('message').textContent = `Hello, ${user.name}`;
+                } else {
+                    throw new Error('Tokens are missing');
+                }
             } catch (err) {
                 console.error('Error handling authentication:', err);
                 document.getElementById('message').textContent = 'Authentication failed';
             }
         }
 
-        // Run the authentication handler when the page loads
         document.addEventListener('DOMContentLoaded', handleAuthentication);
     </script>
 </head>

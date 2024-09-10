@@ -21,10 +21,13 @@
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
                 if (tokens.idToken) {
-                    // Decode the ID token
-                    const decodedToken = jwtDecode(tokens.idToken);
+                    // Extract the ID token string
+                    const idToken = tokens.idToken.value;
 
-                    // Extract user information
+                    // Decode the ID token
+                    const decodedToken = jwtDecode(idToken);
+
+                    // Extract user information from the decoded token
                     const name = decodedToken.name || 'User';
                     document.getElementById('message').textContent = `Hello, ${name}`;
                 } else {
@@ -42,4 +45,3 @@
 <body>
     <div id="message">Processing authentication...</div>
 </body>
-</html>

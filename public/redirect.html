@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
-    <script src="https://unpkg.com/@okta/okta-auth-js@6.5.1/dist/okta-auth-js.min.js"></script>
+    <script src="https://unpkg.com/@okta/okta-auth-js@7.8.0/dist/okta-auth-js.min.js"></script>
     <script>
         const oktaConfig = {
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
@@ -18,7 +18,12 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Handle the redirect and retrieve tokens
+                // Confirm that handleRedirectCallback is a function
+                if (typeof oktaAuth.handleRedirectCallback !== 'function') {
+                    throw new Error('handleRedirectCallback is not a function. Check the Okta SDK version.');
+                }
+
+                console.log('Handling redirect callback...');
                 const tokens = await oktaAuth.handleRedirectCallback();
                 const { accessToken, idToken } = tokens;
 
@@ -28,16 +33,14 @@
                 console.log('Access Token:', accessToken.accessToken);
                 console.log('ID Token:', idToken.idToken);
 
-                // Show confirmation alert
                 alert('Authentication successful! Redirecting to the welcome page.');
 
-                // Redirect to the welcome page after a short delay
                 setTimeout(() => {
                     window.location.href = `${window.location.origin}/welcome.html`;
                 }, 2000); // 2 seconds delay
             } catch (err) {
                 console.error('Error handling login redirect:', err);
-                alert('Error during the authentication process. Please try again.');
+                alert('Error during the authentication process. Please check the console for details.');
             }
         });
     </script>

@@ -22,7 +22,7 @@
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
                 if (tokens.idToken) {
-                    // Decode the ID token
+                    // Decode the ID token using the global jwtDecode function
                     const decodedToken = jwtDecode(tokens.idToken.value);
 
                     // Extract user information

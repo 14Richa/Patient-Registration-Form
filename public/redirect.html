@@ -18,13 +18,14 @@
         // Function to handle authentication callback
         async function handleAuthentication() {
             try {
-                const { tokens } = await oktaAuth.handleAuthentication();
-                if (tokens) {
-                    // Process tokens and display a message
-                    document.getElementById('message').textContent = 'Hello';
-                    // Optionally, you can redirect to another page or perform further actions
-                    // window.location.href = '/some-page';
-                }
+                // Parse tokens from the URL
+                const token = await oktaAuth.token.parseFromUrl();
+                // You can use the token to get user info or verify
+                const user = await oktaAuth.token.getUserInfo(token.tokens.idToken);
+                // Display a message
+                document.getElementById('message').textContent = `Hello, ${user.name}`;
+                // Optionally, redirect to another page
+                // window.location.href = '/some-page';
             } catch (err) {
                 console.error('Error handling authentication:', err);
                 document.getElementById('message').textContent = 'Authentication failed';

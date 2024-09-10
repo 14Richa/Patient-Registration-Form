@@ -6,7 +6,7 @@
     <title>Redirect</title>
     <script src="https://cdn.jsdelivr.net/npm/@okta/okta-auth-js@7.5.0/dist/okta-auth-js.min.js"></script>
     <script>
-        // Initialize OktaAuth with your configuration
+        // Initialize OktaAuth
         const oktaAuth = new OktaAuth({
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
             clientId: '0oajijlhx8pogQNEu5d7',
@@ -22,11 +22,8 @@
 
                 // Check if tokens are available
                 if (tokens && tokens.idToken) {
-                    // Display user information
-                    const decodedToken = parseJwt(tokens.idToken.value);
-                    const name = decodedToken.name || 'User';
-                    const email = decodedToken.email || 'No email available';
-                    document.getElementById('message').textContent = `Hello, ${name} (${email})`;
+                    // Display a simple message
+                    document.getElementById('message').textContent = 'Hi';
                 } else {
                     throw new Error('ID Token is missing or undefined');
                 }
@@ -34,20 +31,6 @@
                 console.error('Error handling authentication:', err);
                 document.getElementById('message').textContent = 'Authentication failed';
             }
-        }
-
-        // Function to decode base64 URL-encoded JWT
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(window.atob(base64)
-                .split('')
-                .map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                })
-                .join(''));
-
-            return JSON.parse(jsonPayload);
         }
 
         document.addEventListener('DOMContentLoaded', handleAuthentication);

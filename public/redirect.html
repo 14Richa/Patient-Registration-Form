@@ -19,13 +19,12 @@
                 // Parse tokens from the URL
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
-                // Check if ID token and Access token are available
-                if (tokens.idToken && tokens.accessToken) {
-                    // Use the ID token to get user info
-                    const user = await oktaAuth.token.getUserInfo(tokens.idToken);
-                    document.getElementById('message').textContent = `Hello, ${user.name}`;
+                if (tokens.idToken) {
+                    // Decode the ID token to get user information
+                    const userInfo = oktaAuth.token.getUserInfo(tokens.idToken);
+                    document.getElementById('message').textContent = `Hello, ${userInfo.name}`;
                 } else {
-                    throw new Error('Tokens are missing');
+                    throw new Error('ID Token is missing');
                 }
             } catch (err) {
                 console.error('Error handling authentication:', err);

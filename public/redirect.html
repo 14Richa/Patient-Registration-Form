@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@okta/okta-auth-js@7.5.0/dist/okta-auth-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script>
+        // Initialize OktaAuth with your configuration
         const oktaAuth = new OktaAuth({
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
             clientId: '0oajijlhx8pogQNEu5d7',
@@ -21,15 +22,15 @@
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
                 if (tokens.idToken) {
-                    // Extract the ID token string
-                    const idToken = tokens.idToken.value;
-
                     // Decode the ID token
-                    const decodedToken = jwtDecode(idToken);
+                    const decodedToken = jwtDecode(tokens.idToken.value);
 
-                    // Extract user information from the decoded token
+                    // Extract user information
                     const name = decodedToken.name || 'User';
-                    document.getElementById('message').textContent = `Hello, ${name}`;
+                    const email = decodedToken.email || 'No email available';
+
+                    // Display user information
+                    document.getElementById('message').textContent = `Hello, ${name} (${email})`;
                 } else {
                     throw new Error('ID Token is missing');
                 }
@@ -45,3 +46,4 @@
 <body>
     <div id="message">Processing authentication...</div>
 </body>
+</html>

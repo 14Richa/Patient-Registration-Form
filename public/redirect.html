@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirect</title>
     <script src="https://cdn.jsdelivr.net/npm/@okta/okta-auth-js@7.5.0/dist/okta-auth-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script>
         const oktaAuth = new OktaAuth({
             issuer: 'https://dev-56861500.okta.com/oauth2/default',
@@ -20,9 +21,12 @@
                 const { tokens } = await oktaAuth.token.parseFromUrl();
 
                 if (tokens.idToken) {
-                    // Decode the ID token to get user information
-                    const userInfo = oktaAuth.token.getUserInfo(tokens.idToken);
-                    document.getElementById('message').textContent = `Hello, ${userInfo.name}`;
+                    // Decode the ID token
+                    const decodedToken = jwtDecode(tokens.idToken);
+
+                    // Extract user information
+                    const name = decodedToken.name || 'User';
+                    document.getElementById('message').textContent = `Hello, ${name}`;
                 } else {
                     throw new Error('ID Token is missing');
                 }

@@ -222,7 +222,7 @@ export const json = {
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',
-  redirectUri: window.location.origin + '/callback',
+  redirectUri: `${window.location.origin}/redirect.html`, // Ensure this is the path Okta redirects to
   scopes: ['openid', 'profile', 'email'],
   pkce: true
 };
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       // Redirect to Okta login page
       await oktaAuth.signInWithRedirect({
-        originalUri: window.location.origin + '/welcome.html' // Redirect here after login
+        originalUri: `${window.location.origin}/welcome.html` // Redirect here after login
       });
     } catch (err) {
       console.error('Error during login:', err);
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Handle Okta redirect callback (when the user is redirected back after login)
-  if (window.location.pathname === '/callback') {
+  if (window.location.pathname === '/redirect.html') {
     try {
       // Handle the redirect and retrieve tokens
       const tokens = await oktaAuth.handleRedirectCallback();
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Redirect to the welcome page after a short delay
       setTimeout(() => {
-        window.location.href = './welcome.html';
+        window.location.href = `${window.location.origin}/welcome.html`;
       }, 2000); // 2 seconds delay
     } catch (err) {
       console.error('Error handling login redirect:', err);
@@ -276,3 +276,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 });
+

@@ -263,8 +263,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.log('Access Token:', accessToken.accessToken);
       console.log('ID Token:', idToken.idToken);
 
-      // Redirect to the welcome page after successful login
-      window.location.href = '/welcome.html';
+      // Show confirmation alert
+      alert('Authentication successful! Redirecting to the welcome page.');
+
+      // Redirect to the welcome page after a short delay
+      setTimeout(() => {
+        window.location.href = './welcome.html';
+      }, 2000); // 2 seconds delay
     } catch (err) {
       console.error('Error handling login redirect:', err);
       alert('Error during the authentication process. Please try again.');

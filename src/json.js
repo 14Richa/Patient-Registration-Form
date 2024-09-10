@@ -222,7 +222,7 @@ export const json = {
 const oktaConfig = {
   issuer: 'https://dev-56861500.okta.com/oauth2/default',
   clientId: '0oajijlhx8pogQNEu5d7',
-  redirectUri: `${window.location.origin}/redirect.html`, // Ensure this is the path Okta redirects to
+  redirectUri: `${window.location.origin}/redirect.html`, // Redirect URI for Okta
   scopes: ['openid', 'profile', 'email'],
   pkce: true
 };
@@ -230,7 +230,6 @@ const oktaConfig = {
 const oktaAuth = new OktaAuth(oktaConfig);
 
 document.addEventListener('DOMContentLoaded', async () => {
-
   // Function to handle login
   const login = async () => {
     try {
@@ -253,26 +252,32 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Handle Okta redirect callback (when the user is redirected back after login)
   if (window.location.pathname === '/redirect.html') {
     try {
-      // Handle the redirect and retrieve tokens
-      const tokens = await oktaAuth.handleRedirectCallback();
-      const { accessToken, idToken } = tokens;
+      // Extract tokens manually from the URL
+      const queryParams = new URLSearchParams(window.location.search);
+      const accessToken = queryParams.get('access_token');
+      const idToken = queryParams.get('id_token');
 
-      // Store tokens in tokenManager for future use
-      oktaAuth.tokenManager.setTokens(tokens);
+      if (accessToken && idToken) {
+        // Store tokens in local storage or use tokenManager
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('idToken', idToken);
 
-      console.log('Access Token:', accessToken.accessToken);
-      console.log('ID Token:', idToken.idToken);
+        console.log('Access Token:', accessToken);
+        console.log('ID Token:', idToken);
 
-      // Show confirmation alert
-      alert('Authentication successful! Redirecting to the welcome page.');
+        // Show confirmation alert
+        alert('Authentication successful! Redirecting to the welcome page.');
 
-      // Redirect to the welcome page after a short delay
-      setTimeout(() => {
-        window.location.href = `${window.location.origin}/welcome.html`;
-      }, 2000); // 2 seconds delay
+        // Redirect to the welcome page after a short delay
+        setTimeout(() => {
+          window.location.href = `${window.location.origin}/welcome.html`;
+        }, 2000); // 2 seconds delay
+      } else {
+        throw new Error('Tokens not found in URL.');
+      }
     } catch (err) {
       console.error('Error handling login redirect:', err);
-      alert('Error during the authentication process. Please try again.');
+      alert('Error during the authentication process. Please check the console for details.');
     }
   }
 });

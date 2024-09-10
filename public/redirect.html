@@ -16,28 +16,28 @@
 
         const oktaAuth = new OktaAuth(oktaConfig);
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             try {
-                // Check if handleRedirectCallback is a function
-                if (typeof oktaAuth.handleRedirectCallback === 'function') {
-                    const tokens = await oktaAuth.handleRedirectCallback();
-                    const { accessToken, idToken } = tokens;
+                const queryParams = new URLSearchParams(window.location.search);
+                const accessToken = queryParams.get('access_token');
+                const idToken = queryParams.get('id_token');
 
-                    // Store tokens in tokenManager for future use
-                    oktaAuth.tokenManager.setTokens(tokens);
+                if (accessToken && idToken) {
+                    // Store tokens in local storage
+                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('idToken', idToken);
 
-                    console.log('Access Token:', accessToken.accessToken);
-                    console.log('ID Token:', idToken.idToken);
+                    console.log('Access Token:', accessToken);
+                    console.log('ID Token:', idToken);
 
                     alert('Authentication successful! Redirecting to the welcome page.');
 
+                    // Redirect to the welcome page after a short delay
                     setTimeout(() => {
                         window.location.href = `${window.location.origin}/welcome.html`;
                     }, 2000); // 2 seconds delay
                 } else {
-                    // Fallback if handleRedirectCallback is not a function
-                    console.error('handleRedirectCallback is not available in the current SDK version.');
-                    alert('Error during the authentication process. Please try again.');
+                    throw new Error('Tokens not found in URL.');
                 }
             } catch (err) {
                 console.error('Error handling login redirect:', err);

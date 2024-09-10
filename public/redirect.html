@@ -18,26 +18,27 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Confirm that handleRedirectCallback is a function
-                if (typeof oktaAuth.handleRedirectCallback !== 'function') {
-                    throw new Error('handleRedirectCallback is not a function. Check the Okta SDK version.');
+                // Check if handleRedirectCallback is a function
+                if (typeof oktaAuth.handleRedirectCallback === 'function') {
+                    const tokens = await oktaAuth.handleRedirectCallback();
+                    const { accessToken, idToken } = tokens;
+
+                    // Store tokens in tokenManager for future use
+                    oktaAuth.tokenManager.setTokens(tokens);
+
+                    console.log('Access Token:', accessToken.accessToken);
+                    console.log('ID Token:', idToken.idToken);
+
+                    alert('Authentication successful! Redirecting to the welcome page.');
+
+                    setTimeout(() => {
+                        window.location.href = `${window.location.origin}/welcome.html`;
+                    }, 2000); // 2 seconds delay
+                } else {
+                    // Fallback if handleRedirectCallback is not a function
+                    console.error('handleRedirectCallback is not available in the current SDK version.');
+                    alert('Error during the authentication process. Please try again.');
                 }
-
-                console.log('Handling redirect callback...');
-                const tokens = await oktaAuth.handleRedirectCallback();
-                const { accessToken, idToken } = tokens;
-
-                // Store tokens in tokenManager for future use
-                oktaAuth.tokenManager.setTokens(tokens);
-
-                console.log('Access Token:', accessToken.accessToken);
-                console.log('ID Token:', idToken.idToken);
-
-                alert('Authentication successful! Redirecting to the welcome page.');
-
-                setTimeout(() => {
-                    window.location.href = `${window.location.origin}/welcome.html`;
-                }, 2000); // 2 seconds delay
             } catch (err) {
                 console.error('Error handling login redirect:', err);
                 alert('Error during the authentication process. Please check the console for details.');

@@ -22,8 +22,15 @@
 
                 // Check if tokens are available
                 if (tokens && tokens.idToken) {
-                    // Display a simple message
-                    document.getElementById('message').textContent = 'Hi';
+                    // Extract email from the ID token payload
+                    const email = tokens.idToken.claims.email;
+
+                    // Display a simple message along with the email
+                    if (email) {
+                        document.getElementById('message').textContent = `Hi, ${email}`;
+                    } else {
+                        document.getElementById('message').textContent = 'Hi, but email is unavailable';
+                    }
                 } else {
                     throw new Error('ID Token is missing or undefined');
                 }
